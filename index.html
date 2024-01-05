@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="container">
+        <div ondragover="allowDrop(event)" ondrop="drop(event)" class="box">
+          <div class="title">
+            <div class="box-header">To do</div>
+            <div class="task-counter">0</div>
+          </div>
+
+          <div class="box-main-todo">
+            <!-- <div class="done">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="details">
+              <h4>title</h4>
+              <p>description</p>
+              <div class="priority">high</div>
+            </div>
+            <div class="action">
+              <div class="delete"><i class="fa-solid fa-trash"></i></div>
+              <div class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
+            </div> -->
+          </div>
+          <div onclick="show(`To do`)" id="box-button">
+            <i class="fa-solid fa-plus"></i>
+            <div>Add card</div>
+          </div>
+        </div>
+        <div ondragover="allowDrop(event)" ondrop="drop(event)" class="box">
+          <div class="title">
+            <div class="box-header">In progress</div>
+            <div class="task-counter">0</div>
+          </div>
+          <div class="box-main-inProgress"></div>
+          <div onclick="show(`In progress`)" id="box-button">
+            <i class="fa-solid fa-plus"></i>
+            <div>Add card</div>
+          </div>
+        </div>
+        <div ondragover="allowDrop(event)" ondrop="drop(event)" class="box">
+          <div class="title">
+            <div class="box-header">Stuck</div>
+            <div class="task-counter">0</div>
+          </div>
+          <div class="box-main-stuck"></div>
+          <div onclick="show(`Stuck`)" id="box-button">
+            <i class="fa-solid fa-plus"></i>
+            <div>Add card</div>
+          </div>
+        </div>
+        <div ondragover="allowDrop(event)" ondrop="drop(event)" class="box">
+          <div class="title">
+            <div class="box-header">Done</div>
+            <div class="task-counter">0</div>
+          </div>
+          <div class="box-main-done"></div>
+          <div onclick="show(`Done`)" id="box-button">
+            <i class="fa-solid fa-plus"></i>
+            <div>Add card</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- add task -->
+
+    <div class="addTask-container">
+      <div class="hide" onclick="hide()"></div>
+      <div class="addTask-box">
+        <h1 id="action-name">Add Task</h1>
+        <h4 id="task-id"></h4>
+        <div class="addTask-title">
+          <label for="input">Title</label><br />
+          <input id="title-input" type="text" />
+        </div>
+        <div class="addTask-description">
+          <label for="input">Description</label><br />
+          <input id="description-input" type="text" />
+        </div>
+        <div class="addTask-status">
+          <label for="select">Status</label><br />
+          <select name="" id="status-select">
+            <option value="To do">To do</option>
+            <option value="In progress">In progress</option>
+            <option value="Stuck">Stuck</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+        <div class="addTask-priority">
+          <label for="select">Priority</label> <br />
+          <select name="" id="priority-select">
+            <option value="high">high</option>
+            <option value="medium">medium</option>
+            <option value="low">low</option>
+          </select>
+        </div>
+        <div onclick="addTask()" id="submit" class="addTaskButton">
+          <button>Add task</button>
+        </div>
+        <div onclick="saveEdit()" id="submit" class="editTaskButton">
+          <button>Edit task</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
