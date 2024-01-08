@@ -19,6 +19,10 @@ const show = (status) => {
 };
 
 const hide = () => {
+  document.getElementById("title-input").style.borderColor = "lightgrey";
+  document.getElementById("description-input").style.borderColor = "lightgrey";
+  document.getElementById("title-input").placeholder = "";
+  document.getElementById("description-input").placeholder = "";
   document
     .getElementsByClassName("addTask-container")[0]
     .classList.remove("flex");
@@ -28,6 +32,26 @@ const addTask = () => {
   const titleInputValue = document.getElementById("title-input").value;
   const descriptionInputValue =
     document.getElementById("description-input").value;
+
+  if (titleInputValue.trim() === "" && descriptionInputValue.trim() === "") {
+    document.getElementById("title-input").style.borderColor = "red";
+    document.getElementById("description-input").style.borderColor = "red";
+    document.getElementById("title-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    document.getElementById("description-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  } else if (titleInputValue.trim() === "") {
+    document.getElementById("title-input").style.borderColor = "red";
+    document.getElementById("title-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  } else if (descriptionInputValue.trim() === "") {
+    document.getElementById("description-input").style.borderColor = "red";
+    document.getElementById("description-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  }
   const statusInputValue = document.getElementById("status-select").value;
   const priorityInputValue = document.getElementById("priority-select").value;
   const inputObj = {
@@ -38,73 +62,38 @@ const addTask = () => {
     id: idCounter++,
   };
   mainArray.push(inputObj);
-
   renderAllBoxes();
   hide();
-
-  //  render(statusInputValue);
 };
 
 const generateHtml = (boxArray) => {
-  // Sort the boxArray by priority: high, medium, low
+  // Sort by priority: high, medium, low
   boxArray.sort((a, b) => {
     const priorityOrder = { high: 1, medium: 2, low: 3 };
     return priorityOrder[a.priority] - priorityOrder[b.priority];
   });
-  console.log(boxArray);
-  let boxString = "";
 
+  let boxString = "";
   boxArray.forEach((el) => {
     console.log("testing boxid = ", el.id);
+
     boxString += `<div ondragstart="drag(event)" class="addTask" draggable="true" id=${el.id}>
-          <div onclick="doneTask(${el.id})" class="done">
-            <i class="fa-solid fa-check"></i>
-          </div>
-          <div class="details">
-            <h4>${el.title}</h4>
-            <p>${el.description}</p>
-            <p>${el.status}</p>
-            <div class="priority">${el.priority}</div>
-          </div>
-          <div  class="action ">
-            <div onclick="deleteTask(${el.id})" class="delete"><i class="fa-solid fa-trash"></i></div>
-            <div onclick="editTask(${el.id})" class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
-          </div>
-        </div>
-        `;
+      <div onclick="doneTask(${el.id})" class="done">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div class="details">
+        <h4>${el.title}</h4>
+        <p>${el.description}</p>
+        <div class="priority">${el.priority}</div>
+      </div>
+      <div  class="action ">
+        <div onclick="deleteTask(${el.id})" class="delete"><i class="fa-solid fa-trash"></i></div>
+        <div onclick="editTask(${el.id})" class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
+      </div>
+    </div>
+    `;
   });
   return boxString;
-};
-
-const allowDrop = (event) => {
-  event.preventDefault();
-};
-
-const drag = (event) => {
-  event.dataTransfer.setData("text", event.target.id);
-};
-
-const drop = (event) => {
-  event.preventDefault();
-  const boxId = event.dataTransfer.getData("text");
-  const draggedElement = document.getElementById(boxId);
-  const target = event.target.closest(".box");
-
-  if (target) {
-    const newStatus = target.querySelector(".box-header").textContent.trim();
-
-    // Get the ID of the dropped element
-    const taskId = parseInt(draggedElement.id);
-
-    // Find the task in mainArray by ID and update its status based on the target box
-    const foundTask = mainArray.find((task) => task.id === taskId);
-    if (foundTask) {
-      foundTask.status = newStatus; // Update the status of the found task
-    }
-
-    // Render the updated tasks in their respective boxes
-    renderAllBoxes();
-  }
 };
 const renderAllBoxes = () => {
   const boxes = document.querySelectorAll(".box");
@@ -112,7 +101,7 @@ const renderAllBoxes = () => {
   boxes.forEach((box) => {
     const status = box.querySelector(".box-header").textContent.trim();
     const filteredArray = mainArray.filter((el) => el.status === status);
-
+    // task counter
     box.querySelector(".task-counter").innerHTML =
       filteredArray != null ? filteredArray.length : "0";
 
@@ -136,16 +125,37 @@ const renderAllBoxes = () => {
     }
   });
 };
+const allowDrop = (event) => {
+  event.preventDefault();
+};
+
+const drag = (event) => {
+  event.dataTransfer.setData("text", event.target.id);
+};
+
+const drop = (event) => {
+  event.preventDefault();
+  const boxId = event.dataTransfer.getData("text");
+  const draggedElement = document.getElementById(boxId);
+  const target = event.target.closest(".box");
+  if (target) {
+    const newStatus = target.querySelector(".box-header").textContent.trim();
+    const taskId = parseInt(draggedElement.id); // Get the ID of the dropped element
+    const foundTask = mainArray.find((task) => task.id === taskId);
+    if (foundTask) {
+      foundTask.status = newStatus;
+    }
+
+    renderAllBoxes();
+  }
+};
 
 function deleteTask(id) {
-  // Find the index of the task with the given ID
   const index = mainArray.findIndex((task) => task.id === id);
   if (index !== -1) {
-    // Remove the task from mainArray
     mainArray.splice(index, 1);
-  } // Call the function to delete the task
+  }
 
-  // Render all boxes after deleting the task
   renderAllBoxes();
 }
 
@@ -183,12 +193,33 @@ function editTask(id) {
 }
 
 function saveEdit() {
-  console.log("saveEdit");
   const taskId = document.getElementById("task-id").innerHTML;
-  console.log("taskid =", taskId);
+
+  const titleInputValue = document.getElementById("title-input").value;
+  const descriptionInputValue =
+    document.getElementById("description-input").value;
+
+  if (titleInputValue.trim() === "" && descriptionInputValue.trim() === "") {
+    document.getElementById("title-input").style.borderColor = "red";
+    document.getElementById("description-input").style.borderColor = "red";
+    document.getElementById("title-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    document.getElementById("description-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  } else if (titleInputValue.trim() === "") {
+    document.getElementById("title-input").style.borderColor = "red";
+    document.getElementById("title-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  } else if (descriptionInputValue.trim() === "") {
+    document.getElementById("description-input").style.borderColor = "red";
+    document.getElementById("description-input").placeholder =
+      "Хоосон утгыг бөглөнө үү";
+    return;
+  }
   mainArray.forEach((el) => {
     if (el.id == taskId) {
-      console.log("foundFrom main array");
       const titleInputValue = document.getElementById("title-input").value;
       const descriptionInputValue =
         document.getElementById("description-input").value;
@@ -208,35 +239,34 @@ function saveEdit() {
   renderAllBoxes();
   hide();
 }
-
 //todo nemeh
-const render = (statusInputValue) => {
-  const filteredArray = mainArray.filter((el) => {
-    return el.status === statusInputValue;
-  });
+// const render = (statusInputValue) => {
+//   const filteredArray = mainArray.filter((el) => {
+//     return el.status === statusInputValue;
+//   });
 
-  let boxString = generateHtml(filteredArray);
+//   let boxString = generateHtml(filteredArray);
 
-  switch (statusInputValue) {
-    case "To do":
-      document.getElementsByClassName("box-main-todo")[0].innerHTML = boxString;
-      break;
+//   switch (statusInputValue) {
+//     case "To do":
+//       document.getElementsByClassName("box-main-todo")[0].innerHTML = boxString;
+//       break;
 
-    case "In progress":
-      document.getElementsByClassName("box-main-inProgress")[0].innerHTML =
-        boxString;
-      break;
+//     case "In progress":
+//       document.getElementsByClassName("box-main-inProgress")[0].innerHTML =
+//         boxString;
+//       break;
 
-    case "Stuck":
-      document.getElementsByClassName("box-main-stuck")[0].innerHTML =
-        boxString;
-      break;
+//     case "Stuck":
+//       document.getElementsByClassName("box-main-stuck")[0].innerHTML =
+//         boxString;
+//       break;
 
-    case "Done":
-      document.getElementsByClassName("box-main-done")[0].innerHTML = boxString;
-      break;
+//     case "Done":
+//       document.getElementsByClassName("box-main-done")[0].innerHTML = boxString;
+//       break;
 
-    default:
-      break;
-  }
-};
+//     default:
+//       break;
+//   }
+// };

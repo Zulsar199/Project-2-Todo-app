@@ -7,15 +7,82 @@ body {
   justify-content: center;
   height: 100vh;
   font-family: sans-serif;
-  background-image: url(./design11-01_generated.jpg);
-  background-size: cover;
+  /* background-color: #A9C9FF;
+  background-image: linear-gradient(150deg, #A9C9FF 0%, #FFBBEC 100%); */
+ background-image: url(./2880x1800-px-Earth-minimalism-Solar-System-Sun-1200285-wallhere.com.jpg);
+ background-size: cover;
 }
 .main-container {
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
 }
+#head-title{
+  margin-top: 40px;
+  position: absolute;
+  animation: fill-animation .5s ease forwards 2.5s;
+}
+@keyframes fill-animation {
+  from{
+    fill: transparent;
+  }
+  to{
+    fill: white;
+  }
+  
+}
+#head-title path:nth-child(1){
+ stroke-dasharray: 800px;
+ stroke-dashoffset: 800px;
+ animation: line-animation 2s ease forwards 2.1s;
+}
+#head-title path:nth-child(2){
+ stroke-dasharray: 800px;
+ stroke-dashoffset: 800px;
+ animation: line-animation 2s ease forwards 1.8s;
+}
+#head-title path:nth-child(3){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards 1.5s;
+}
+#head-title path:nth-child(4){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards 1.2s;
+}
+#head-title path:nth-child(5){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards .9s;
+}
+#head-title path:nth-child(6){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards .6s;
+}
+#head-title path:nth-child(7){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards .3s;
+}
+#head-title path:nth-child(8){
+  stroke-dasharray: 800px;
+  stroke-dashoffset: 800px;
+  animation: line-animation 2s ease forwards ;
+}
+@keyframes line-animation {
+  to{
+    stroke-dashoffset: 1;
+  }
+  
+}
+
+
+
 .container {
-  margin-top: 100px;
+  margin-top: 150px;
   display: flex;
   gap: 16px;
   min-width: 1280px;
@@ -29,14 +96,14 @@ body {
   width: 23%;
   height: fit-content;
 }
-.title{
+.title {
   display: flex;
 }
 .box-header {
   font-size: 20px;
   padding: 8px;
 }
-.task-counter{
+.task-counter {
   padding: 8px;
   display: flex;
   justify-content: center;
@@ -54,7 +121,15 @@ body {
   justify-content: space-between;
 }
 
-.done,
+.done {
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 3px;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  width: 16px;
+}
 .delete,
 .edit {
   cursor: pointer;
@@ -63,16 +138,19 @@ body {
   height: fit-content;
 }
 .box-main-done .done {
-  background-color: rgb(210, 210, 211);
+  background-color: rgb(225, 225, 227);
+  display: flex;
+  align-items: center;
+  width: 16px;
 }
 .done:hover {
-  background-color: rgb(210, 210, 211);
+  background-color: rgb(225, 225, 227);
 }
 .delete:hover {
-  background-color: rgb(210, 210, 211);
+  background-color: rgb(225, 225, 227);
 }
 .edit:hover {
-  background-color: rgb(210, 210, 211);
+  background-color: rgb(225, 225, 227);
 }
 .action {
   width: 8%;
@@ -183,6 +261,53 @@ body {
 .display-none {
   display: none;
 }
-#task-id{
+#task-id {
   display: none;
+}
+@media only screen and (max-width: 1280px) and (min-width: 1150px) {
+  .container {
+    min-width: 1150px;
+  }
+}
+@media only screen and (max-width: 1150px) and (min-width: 940px) {
+  .container {
+    max-width: 1150px;
+    min-width: 940px;
+    flex-wrap: wrap;
+    height: fit-content;
+  }
+  .box {
+    width: 45%;
+  }
+  svg{
+    width: 425px;
+    height: 65px;
+  }
+}
+@media only screen and (max-width: 940px) and (min-width: 730px) {
+  .container {
+    max-width: 940px;
+    min-width: 730px;
+    flex-wrap: wrap;
+    height: fit-content;
+  }
+  .box {
+    width: 45%;
+  }
+  svg{
+    width: 400px;
+    height: 60px;
+  }
+}
+@media only screen and (max-width: 730px)  {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+  }
+  svg{
+    width: 375px;
+    height: 50px;
+  }
+
 }
